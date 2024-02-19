@@ -1,22 +1,96 @@
-// src/components/App.jsx
+import React, { useState } from 'react';
+import LoginForm from "./LoginForm";
+import SearchBar from "./SearchBar";
+import LangSwitcher from "./LangSwitcher";
 
-import { Product } from "./Product";
+const App = () => {
+  const handleLogin = (userData) => {
+    console.log(userData);
+  };
 
-export default function App() {
+  const handleSumit = (evt) => {
+  evt.preventDefault();
+  console.log(values);
+
+	// Очищаємо форму
+  setValues({
+    login: "",
+    password: "",
+  });
+};
+
+  const [lang, setLang] = useState("uk");
+  const [coffeeSize, setCoffeeSize] = useState("sm");
+  const [hasAccepted, setHasAccepted] = useState(false); 
+
+  const handleSizeChange = (evt) => {
+    setCoffeeSize(evt.target.value);
+  };
+
+  const handleChange = (evt) => {
+    setHasAccepted(evt.target.checked);
+  };
+
   return (
     <div>
-      <h1>Best selling</h1>
-
-      <Product
-        name="Tacos With Lime"
-        imgUrl="<https://images.pexels.com/photos/461198/pexels-photo-461198.jpeg?dpr=2&h=480&w=640>"
-        price={10.99}
-      />
-      <Product
-        name="Fries and Burger"
-        imgUrl="<https://images.pexels.com/photos/70497/pexels-photo-70497.jpeg?dpr=2&h=480&w=640>"
-        price={14.29}
-      />
+      <div>
+        <h1>Please login to your account!</h1>
+        <LoginForm onSubmit={handleLogin} />
+        <SearchBar />
+      </div>
+      <div>
+        <p>Selected language: {lang}</p>
+        <LangSwitcher value={lang} onSelect={setLang} />
+      </div>
+      <div>
+        <h1>Select coffee size</h1>
+        <label>
+          <input
+            type="radio"
+            name="coffeeSize"
+            value="sm"
+            checked={coffeeSize === "sm"}
+            onChange={handleSizeChange}
+          />
+          Small
+        </label>
+        <label>
+          <input
+            type="radio"
+            name="coffeeSize"
+            value="md"
+            checked={coffeeSize === "md"}
+            onChange={handleSizeChange}
+          />
+          Medium 
+        </label>
+        <label>
+          <input
+            type="radio"
+            name="coffeeSize"
+            value="lg"
+            checked={coffeeSize === "lg"}
+            onChange={handleSizeChange}
+          />
+          Large
+        </label>
+      </div>
+      <div>
+        <label>
+          <input
+            type="checkbox"
+            name="terms"
+            checked={hasAccepted}
+            onChange={handleChange}
+          />
+          I accept terms and conditions
+        </label>
+        <button type="button" disabled={!hasAccepted}>
+          Proceed
+        </button>
+      </div>
     </div>
   );
-}
+};
+
+export default App;
